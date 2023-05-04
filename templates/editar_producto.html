@@ -1,0 +1,30 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar producto
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar producto</h3>
+            <p>Valor de la variable producto: {{ producto [0] }}</p>  {# Agrega este mensaje de depuración #}
+            <form action="{{ url_for('actualizar_producto') }}" method="post">
+                {# Enviar el id en un campo oculto #}
+                <input type="hidden" name="idproducto" value="{{producto[0]}}">
+                <label for="descripcion">Descripción:</label>
+                <input value="{{producto[1]}}" required type="text" class="input" placeholder="Descripción" name="descripcion" id="descripcion">
+                <label for="precio">Precio:</label>
+                <input value="{{producto[2]}}" required type="number" class="input" placeholder="Precio" name="precio" id="precio">
+                <label for="stock">Stock:</label>
+                <input value="{{producto[3]}}" required type="number" class="input" placeholder="Stock" name="stock" id="stock">
+                <label for="disponible">Disponible:</label>
+                <input value="{{producto[4]}}" required type="number" class="input" placeholder="Disponible" name="disponible" id="disponible">
+                <label for="idproveedor">ID del proveedor:</label>
+                <input value="{{producto[5]}}" required type="number" class="input" placeholder="ID del proveedor" name="idproveedor" id="idproveedor">
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('productos')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

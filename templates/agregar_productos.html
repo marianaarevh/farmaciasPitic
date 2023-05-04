@@ -1,0 +1,32 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Agregar productos
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Agregar productos</h3>
+            <form action="{{url_for('guardar_producto')}}" method="post">
+                <label for="idproducto">ID Producto:</label>
+                <input required type="text" class="input" placeholder="ID Producto" name="idproducto" id="idproducto">
+                <label for="descripcion">Descripción:</label>
+                <input required type="text" class="input" placeholder="Descripción" name="descripcion" id="descripcion">
+                <label for="precio">Precio:</label>
+                <input required type="number" class="input" placeholder="Precio" name="precio" id="precio">
+                <label for="stock">Stock:</label>
+                <input required type="number" class="input" placeholder="Stock" name="stock" id="stock">
+                <label for="disponible">Disponible:</label>
+                <select required class="input" name="disponible" id="disponible">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+                <label for="idproveedor">ID Proveedor:</label>
+                <input required type="text" class="input" placeholder="ID Proveedor" name="idproveedor" id="idproveedor">
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('productos')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
