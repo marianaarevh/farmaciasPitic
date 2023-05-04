@@ -1,0 +1,2 @@
+# ignorar el venv y sus subdirectorios
+venv/
