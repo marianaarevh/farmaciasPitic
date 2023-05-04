@@ -9,7 +9,7 @@ def formulario_agregar_producto():
 
 @app.route("/guardar_producto", methods=["POST"])
 def guardar_producto():
-    idproveedor = request.form["idproveedor"]
+    idproducto = request.form["idproducto"]
     descripcion = request.form["descripcion"]
     precio = request.form["precio"]
     stock = request.form["stock"]
@@ -35,6 +35,7 @@ def editar_producto(id):
     # obtener el producto por ID:
     producto = controlador_productos.obtener_producto_por_id(id)
     return render_template("editar_producto.html", producto=producto)
+
 
 @app.route("/actualizar_producto", methods=["POST"])
 def actualizar_producto():
