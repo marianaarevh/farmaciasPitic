@@ -20,6 +20,7 @@ body {
         background-color: white;
         
 }
+
 .form {
     margin: auto;
     width: auto;
@@ -94,3 +95,10 @@ form input[type="submit"] {
     height: 100vh;
     place-items: center;
   }
+  .form .header {
+    font-size: xx-large;
+    color: black;
+    text-align: center;
+    font-weight: 500;
+    min-height: 0%;
+}
