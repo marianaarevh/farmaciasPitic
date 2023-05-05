@@ -9,7 +9,7 @@ def formulario_agregar_producto():
 
 @app.route("/guardar_producto", methods=["POST"])
 def guardar_producto():
-    idproveedor = request.form["idproveedor"]
+    idproducto = request.form["idproducto"]
     descripcion = request.form["descripcion"]
     precio = request.form["precio"]
     stock = request.form["stock"]
@@ -20,8 +20,6 @@ def guardar_producto():
     return redirect("/productos")
 
 @app.route("/")
-def login():
-    return render_template("login.html")
 @app.route("/productos")
 def productos():
     productos = controlador_productos.obtener_producto()
@@ -29,7 +27,7 @@ def productos():
 
 @app.route("/eliminar_producto", methods=["POST"])
 def eliminar_producto():
-    controlador_productos.eliminar_productos(request.form["idproducto"])
+    controlador_productos.eliminar_productos(request.form["id"])
     return redirect("/productos")
 
 @app.route("/formulario_editar_producto/<int:id>")

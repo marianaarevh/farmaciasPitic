@@ -1,101 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Farmacias Pitic</title>
-  <style>
-    * {
-    font-family: 'Poppins', sans-serif;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .form {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .form img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .form input {
-      margin: 10px;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #f0f0f0;
-      font-size: 16px;
-    }
-
-    .form input[type="submit"] {
-      background-color: #007bff;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .form input[type="submit"]:hover {
-      background-color: #0069d9;
-    }
-
-    .mitad-1 {
-      flex: 1;
-    }
-
-    .mitad-2 {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .mitad-2 img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    .form form {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .form .header {
-    font-size: xx-large;
-    color: black;
-    text-align: center;
-    font-weight: 500;
-    min-height: 0%;
-}
-  </style>
+    <title>Login</title>
 </head>
 <body>
-  <section class="mitad-1">
-    <div class="form login">
-      <img src="../static/farmaciaLogo.png" alt="logo" class="responsive"/>
-      <form action="#">
-        <label class="header">¡Bienvenido!</label>
-        <p>Te deseamos un excelente día</p>
-        <input type="text" placeholder="Usuario" required id="user">
-        <input type="password" placeholder="Contraseña" required id="pass">
-        <input type="submit" value="Iniciar Sesión">
-      </form>
-    </div>
-  </section>
-  <section class="mitad-2">
-    <img src="../static/portada.png" alt="imagen de portada"/>
-  </section>
+    {% if error %}
+    <div style="color: red;">{{ error }}</div>
+    {% endif %}
+    <form method="POST" action="{{ url_for('login') }}">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username">
+        <br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password">
+        <br>
+        <input type="submit" value="Iniciar sesión">
+    </form>
 </body>
 </html>

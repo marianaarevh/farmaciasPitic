@@ -26,13 +26,10 @@ def eliminar_productos(idproducto):
 
 def obtener_producto_por_id(idproducto):
     conexion = obtener_conexion()
-    productos = None
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT idproducto, descripcion, precio, stock, disponible, idproveedor FROM productos WHERE idproducto = %s", (idproducto,))
-        productos = cursor.fetchall()
-        print(productos)  # imprime el resultado de la consulta en la consola del servidor
-    conexion.close()
-    return productos
+        cursor.execute("SELECT * FROM productos WHERE idproducto = %s", (idproducto,))
+        producto = cursor.fetchone()
+    return producto
 
 def actualizar_producto(idproducto, descripcion, precio, stock, disponible, idproveedor):
     conexion = obtener_conexion()
@@ -41,4 +38,3 @@ def actualizar_producto(idproducto, descripcion, precio, stock, disponible, idpr
         (descripcion, precio, stock, disponible, idproveedor, idproducto))
     conexion.commit()
     conexion.close()
-    
