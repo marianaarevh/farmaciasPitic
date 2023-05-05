@@ -7,7 +7,7 @@ Editar producto
     <div class="columns">
         <div class="column">
             <h3 class="is-size-3">Editar producto</h3>
-            <p>Valor de la variable producto: {{ producto }}</p>  {# Agrega este mensaje de depuración #}
+            <p>Valor de la variable producto: {{ producto [0] }}</p>  {# Agrega este mensaje de depuración #}
             <form action="{{ url_for('actualizar_producto') }}" method="post">
                 {# Enviar el id en un campo oculto #}
                 <input type="hidden" name="idproducto" value="{{producto[0]}}">
