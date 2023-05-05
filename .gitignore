@@ -1,2 +1,3 @@
 # ignorar el venv y sus subdirectorios
 venv/
+__pycache__

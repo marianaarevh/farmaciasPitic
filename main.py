@@ -22,6 +22,7 @@ def guardar_producto():
 @app.route("/")
 def login():
     return render_template("login.html")
+
 @app.route("/productos")
 def productos():
     productos = controlador_productos.obtener_producto()
