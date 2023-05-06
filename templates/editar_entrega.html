@@ -1,0 +1,28 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar entrega
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar entrega</h3>
+            <p>Valor de la variable entrega: {{ entrega }}</p>  {# Agrega este mensaje de depuración #}
+            <form action="{{ url_for('actualizar_entrega') }}" method="post">
+                {# Enviar el id en un campo oculto #}
+                <input type="hidden" name="identrega" value="{{entrega[0]}}">
+                <label for="fechaentrega">Fecha de Entrega:</label>
+                <input value="{{entrega[1]}}" required type="text" class="input" placeholder="Fecha de Entrega" name="fechaentrega" id="fechaentrega">
+                <label for="idproveedor">Id de proveedor:</label>
+                <input value="{{entrega[2]}}" required type="number" class="input" placeholder="Id de proveedor" name="idproveedor" id="idproveedor">
+                <label for="idproducto">Id de Producto:</label>
+                <input value="{{entrega[3]}}" required type="number" class="input" placeholder="Id de Producto" name="idproducto" id="idproducto">
+                <label for="cantidad">Cantidad:</label>
+                <input value="{{entrega[4]}}" required type="number" class="input" placeholder="Cantidad" name="cantidad" id="cantidad">
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('entregas')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
