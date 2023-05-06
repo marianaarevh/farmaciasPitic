@@ -33,6 +33,9 @@ def eliminar_producto():
     controlador_productos.eliminar_productos(request.form["id"])
     return redirect("/productos")
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 @app.route("/formulario_editar_producto/<int:id>")
 def editar_producto(id):
     # obtener el producto por ID:

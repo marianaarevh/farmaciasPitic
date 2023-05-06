@@ -102,3 +102,69 @@ form input[type="submit"] {
     font-weight: 500;
     min-height: 0%;
 }
+
+.menu  {
+    width: 25%;
+        float: left;
+        position: fixed;
+        height: 100%;
+        background-color: #00399d;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        box-shadow: 0px 10px 15px #172866;
+        
+}
+
+.menu .elementos {
+    color:white;
+    font-weight: 500;
+    flex-direction: column;
+    gap: 60px;
+    position: relative;
+    display:flex;
+    padding-bottom: 20px;
+    margin-left: auto;
+    text-align: left;
+    margin-top: 10%;
+    text-decoration: none;
+
+    
+}
+
+.fa-ul {
+    padding: 10%;
+    text-align: left;
+}
+
+.portada{
+    width: 75%;
+        float: right;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+}
+
+.banner {
+    width: 60%;
+    text-align: center
+    ;
+}
+
+.menu input[type="submit"] {
+    font-size: small;
+    font-weight: 500;
+    background-color: rgb(252, 106, 0);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    height: 40px;
+    padding: 0 20px;
+    box-shadow: 0 10 15px #172866;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+
+
+}
