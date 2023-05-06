@@ -20,6 +20,10 @@ def formulario_agregar_producto():
 def formulario_agregar_pedido():
     return render_template("agregar_pedidos.html")
 
+@app.route("/agregar_entrega")
+def formulario_agregar_entrega():
+    return render_template("agregar_entrega.html")
+
 @app.route("/guardar_producto", methods=["POST"])
 def guardar_producto():
     idproducto = request.form["idproducto"]
@@ -50,6 +54,17 @@ def guardar_pedido():
     # De cualquier modo, y si todo fue bien, redirecciona
     return redirect("/pedidos")
 
+@app.route("/guardar_entrega", methods=["POST"])
+def guardar_entrega():
+    identrega = request.form["identrega"]
+    fechaentrega = request.form["fechaentrega"]
+    idproveedor = request.form["idproveedor"]
+    idproducto = request.form["idproducto"]
+    cantidad = request.form["cantidad"]
+    controlador_productos.insertar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad)
+    # De cualquier modo, y si todo fue bien, redirecciona
+    return redirect("/entregas")
+
 #@app.route("/")
 @app.route("/productos")
 def productos():
@@ -66,6 +81,11 @@ def proveedor():
 def pedidos():
     pedidos = controlador_productos.obtener_pedido()
     return render_template("pedidos.html", pedidos=pedidos)
+
+@app.route("/entregas")
+def entregas():
+    entregas = controlador_productos.obtener_enpr()
+    return render_template("entregas.html", entregas=entregas)
 
 @app.route("/eliminar_producto", methods=["POST"])
 def eliminar_producto():
@@ -84,6 +104,11 @@ def eliminar_pedido():
     controlador_productos.eliminar_pedido(request.form["id"])
     return redirect("/pedidos")
 
+@app.route("/eliminar_entrega", methods=["POST"])
+def eliminar_entrega():
+    controlador_productos.eliminar_enpr(request.form["id"])
+    return redirect("/entregas")
+
 @app.route("/formulario_editar_producto/<int:id>")
 def editar_producto(id):
     # obtener el producto por ID:
@@ -101,6 +126,12 @@ def editar_pedido(id):
     # obtener el producto por ID:
     pedido = controlador_productos.obtener_pedido_por_id(id)
     return render_template("editar_pedido.html", pedido=pedido)
+
+@app.route("/formulario_editar_entrega/<int:id>")
+def editar_entrega(id):
+    # obtener el producto por ID:
+    entrega = controlador_productos.obtener_enpr_por_id(id)
+    return render_template("editar_entrega.html", entrega=entrega)
 
 @app.route("/actualizar_producto", methods=["POST"])
 def actualizar_producto():
@@ -128,6 +159,16 @@ def actualizar_pedido():
     idproducto = request.form["idproducto"]
     controlador_productos.actualizar_pedido(idpedido, fechapedido, estadopedido, idproducto)
     return redirect("/pedidos")
+
+@app.route("/actualizar_entrega", methods=["POST"])
+def actualizar_entrega():
+    identrega = request.form["identrega"]
+    fechaentrega = request.form["fechaentrega"]
+    idproveedor = request.form["idproveedor"]
+    idproducto = request.form["idproducto"]
+    cantidad = request.form["cantidad"]
+    controlador_productos.actualizar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad)
+    return redirect("/entregas")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000, debug=True)

@@ -24,6 +24,14 @@ def insertar_pedido(idpedido, fechapedido, estadopedido, idproducto):
     conexion.commit()
     conexion.close()
 
+def insertar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("INSERT INTO entregaproveedor(identrega, fechaentrega, idproveedor, idproducto, cantidad) VALUES (%s, %s, %s, %s,%s)",
+        (identrega, fechaentrega, idproveedor, idproducto, cantidad))
+    conexion.commit()
+    conexion.close()
+
 def obtener_producto():
     conexion = obtener_conexion()
     productos = []
@@ -51,6 +59,15 @@ def obtener_pedido():
     conexion.close()
     return pedidos
 
+def obtener_enpr():
+    conexion = obtener_conexion()
+    entregas = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT identrega, fechaentrega, idproveedor, idproducto, cantidad FROM entregaproveedor")
+        entregas = cursor.fetchall()
+    conexion.close()
+    return entregas
+
 def eliminar_productos(idproducto):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
@@ -71,6 +88,14 @@ def eliminar_pedido(idpedido):
         cursor.execute("DELETE FROM pedidos WHERE idpedido = %s", (idpedido,))
     conexion.commit()
     conexion.close()
+
+def eliminar_enpr(identrega):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("DELETE FROM entregaproveedor WHERE identrega = %s", (identrega,))
+    conexion.commit()
+    conexion.close()
+
 
 def obtener_producto_por_id(idproducto):
     conexion = obtener_conexion()
@@ -93,6 +118,13 @@ def obtener_pedido_por_id(idpedido):
         pedidos = cursor.fetchone()
     return pedidos
 
+def obtener_enpr_por_id(identrega):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT * FROM entregaproveedor WHERE identrega = %s", (identrega,))
+        entregas = cursor.fetchone()
+    return entregas
+
 def actualizar_producto(idproducto, descripcion, precio, stock, disponible, idproveedor):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
@@ -114,5 +146,13 @@ def actualizar_pedido(idpedido, fechapedido, estadopedido, idproducto):
     with conexion.cursor() as cursor:
         cursor.execute("UPDATE pedidos SET fechapedido = %s, estadopedido = %s, idproducto = %s WHERE idpedido = %s",
         (fechapedido, estadopedido, idproducto, idpedido))
+    conexion.commit()
+    conexion.close()
+
+def actualizar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad):
+    conexion = obtener_conexion()
+    with conexion.cursor() as cursor:
+        cursor.execute("UPDATE entregaproveedor SET fechaentrega = %s, idproveedor = %s, idproducto = %s, cantidad = %s WHERE identrega = %s",
+        (fechaentrega, idproveedor, idproducto, cantidad, identrega))
     conexion.commit()
     conexion.close()
