@@ -1,0 +1,22 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Editar proveedor
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Editar proveedor</h3>
+            <p>Valor de la variable producto: {{ proveedor }}</p>  {# Agrega este mensaje de depuración #}
+            <form action="{{ url_for('actualizar_proveedor') }}" method="post">
+                {# Enviar el id en un campo oculto #}
+                <input type="hidden" name="idproveedor" value="{{proveedor[0]}}">
+                <label for="proveedor">Proveedor:</label>
+                <input value="{{proveedor[1]}}" required type="text" class="input" placeholder="Proveedor" name="proveedor" id="proveedor">
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('proveedor')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

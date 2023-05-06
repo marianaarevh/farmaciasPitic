@@ -1,0 +1,26 @@
+{% extends "maestra.html" %}
+{% block titulo %}
+Agregar pedidos
+{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Agregar pedidos</h3>
+            <form action="{{url_for('guardar_pedido')}}" method="post">
+                <label for="idpedido">ID Pedido:</label>
+                <input required type="text" class="input" placeholder="ID Producto" name="idpedido" id="idpedido">
+                <label for="fechapedido">Fecha de Pedido:</label>
+                <input required type="text" class="input" placeholder="Fecha de Pedido" name="fechapedido" id="fechapedido">
+                <label for="estadopedido">Estado de Pedido:</label>
+                <input required type="text" class="input" placeholder="Estado de Pedido" name="estadopedido" id="estadopedido">
+                <label for="idproducto">Id de Producto:</label>
+                <input required type="number" class="input" placeholder="Id de Producto" name="idproducto" id="idproducto">
+                <label for="idproveedor">ID Proveedor:</label>
+                <button type="submit" class="button is-success mt-2">Guardar</button>
+                <a href="{{url_for('pedidos')}}" class="button is-primary mt-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
