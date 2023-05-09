@@ -8,7 +8,6 @@ Editar proveedor
     <div class="columns">
         <div class="column">
             <h3 class="is-size-3">Editar proveedor</h3>
-            <p>Valor de la variable producto: {{ proveedor }}</p>  {# Agrega este mensaje de depuración #}
             <form action="{{ url_for('actualizar_proveedor') }}" method="post">
                 {# Enviar el id en un campo oculto #}
                 <input type="hidden" name="idproveedor" value="{{proveedor[0]}}">

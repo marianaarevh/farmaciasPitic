@@ -8,14 +8,16 @@ Editar pedido
     <div class="columns">
         <div class="column">
             <h3 class="is-size-3">Editar pedido</h3>
-            <p>Valor de la variable pedido: {{ pedido }}</p>  {# Agrega este mensaje de depuración #}
             <form action="{{ url_for('actualizar_pedido') }}" method="post">
                 {# Enviar el id en un campo oculto #}
                 <input type="hidden" name="idpedido" value="{{pedido[0]}}">
                 <label for="fechapedido">Fecha de Pedido:</label>
-                <input required type="text" class="input" value="{{pedido[1]}}" name="fechapedido" id="fechapedido">
+                <input required type="date" class="input" value="{{pedido[1]}}" name="fechapedido" id="fechapedido">
                 <label for="estadopedido">Estado de Pedido:</label>
-                <input required type="text" class="input" value="{{pedido[2]}}" name="estadopedido" id="estadopedido">
+                <select required  class="input" value="{{pedido[2]}}" name="estadopedido" id="estadopedido">
+                    <option value="Activo" {% if pedido[2] ==  "Activo" %} selected {% endif %}>Activo</option>
+                    <option value="Incativo" {% if pedido[2] ==  "Incativo" %} selected {% endif %}>Incativo</option>
+                    </select>
                 <label for="idproducto">Producto:</label>
                 <select required class="input" name="idproducto" id="idproducto">
                     {% for producto in productos %}

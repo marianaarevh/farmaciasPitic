@@ -10,9 +10,9 @@ Agregar pedidos
             <h3 class="is-size-3">Agregar pedidos</h3>
             <form action="{{url_for('guardar_pedido')}}" method="post">
                 <label for="fechapedido">Fecha de Pedido:</label>
-                <input required type="text" class="input" placeholder="Fecha de Pedido" name="fechapedido" id="fechapedido">
+                <input required type="date" class="input" value="{{ fecha_actual.strftime('%Y-%m-%d') }}" placeholder="{{today}}" value="{{ today }}" name="fechapedido" id="fechapedido">
                 <label for="estadopedido">Estado de Pedido:</label>
-                <input required type="text" class="input" placeholder="Estado de Pedido" name="estadopedido" id="estadopedido">
+                <input required type="text" readonly class="input" placeholder="Estado de Pedido" value="Activo" name="estadopedido" id="estadopedido">
                 <label for="idproducto">Producto:</label>
                 <select required class="input" name="idproducto" id="idproducto">
                     {% for producto in productos %}
