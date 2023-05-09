@@ -1,0 +1,44 @@
+{% extends "maestra.html" %}
+
+{% block titulo %} Pedidos {% endblock %}
+
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Pedidos</h3>
+            <a href="{{url_for('formulario_agregar_pedido')}}" class="button is-success">Agregar</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id Pedido</th>
+                        <th>fecha de Pedido</th>
+                        <th>Estado de Pedido</th>
+                        <th>Id de Producto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{pedido[0]}}</td>
+                        <td>{{pedido[1]}}</td>
+                        <td>{{pedido[2]}}</td>
+                        <td>{{pedido[3]}}</td>
+                        <td>
+                            {# Pasar el id lo que hay en pedido[0] #}
+                            <a href="{{url_for('editar_pedido', id=pedido[0])}}" class="button is-info">Editar</a>
+                        </td>
+                        <td>
+                            <form action="{{url_for('eliminar_pedido')}}" method="POST">
+                                <input type="hidden" name="id" value="{{pedido[0]}}">
+                                <button class="button is-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

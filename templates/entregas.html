@@ -1,0 +1,46 @@
+{% extends "maestra.html" %}
+
+{% block titulo %} Entregas {% endblock %}
+
+{% block contenido %}
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <h3 class="is-size-3">Entregas</h3>
+            <a href="{{url_for('formulario_agregar_entrega')}}" class="button is-success">Agregar</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id Entrega</th>
+                        <th>Fecha de Entrega</th>
+                        <th>Id Proveedor</th>
+                        <th>Id Produto</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entrega in entregas %}
+                    <tr>
+                        <td>{{entrega[0]}}</td>
+                        <td>{{entrega[1]}}</td>
+                        <td>{{entrega[2]}}</td>
+                        <td>{{entrega[3]}}</td>
+                        <td>{{entrega[4]}}</td>
+                        <td>
+                            {# Pasar el id lo que hay en entrega[0] #}
+                            <a href="{{url_for('editar_entrega', id=entrega[0])}}" class="button is-info">Editar</a>
+                        </td>
+                        <td>
+                            <form action="{{url_for('eliminar_entrega')}}" method="POST">
+                                <input type="hidden" name="id" value="{{entrega[0]}}">
+                                <button class="button is-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
