@@ -3,6 +3,7 @@
 Editar producto
 {% endblock %}
 {% block contenido %}
+<div class="portada">
 <section class="section">
     <div class="columns">
         <div class="column">
@@ -18,13 +19,25 @@ Editar producto
                 <label for="stock">Stock:</label>
                 <input value="{{producto[3]}}" required type="number" class="input" placeholder="Stock" name="stock" id="stock">
                 <label for="disponible">Disponible:</label>
-                <input value="{{producto[4]}}" required type="number" class="input" placeholder="Disponible" name="disponible" id="disponible">
-                <label for="idproveedor">ID del proveedor:</label>
-                <input value="{{producto[5]}}" required type="number" class="input" placeholder="ID del proveedor" name="idproveedor" id="idproveedor">
+                <select required class="input" name="disponible" id="disponible">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+                <label for="idproveedor">Proveedor:</label>
+                <select required class="input" name="idproveedor" id="idproveedor">
+                    {% for proveedor in proveedores %}
+                    {% if proveedor[0] ==  producto[5] %}
+                        <option value="{{ proveedor[0] }}" selected>{{ proveedor[1] }}</option>
+                    {% else %}
+                        <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
                 <button type="submit" class="button is-success mt-2">Guardar</button>
                 <a href="{{url_for('productos')}}" class="button is-primary mt-2">Volver</a>
             </form>
         </div>
     </div>
 </section>
+</div>
 {% endblock %}

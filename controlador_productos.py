@@ -1,34 +1,42 @@
 from bd import obtener_conexion
 
-def insertar_producto(idproducto, descripcion, precio, stock, disponible, idproveedor):
+def insertar_producto(descripcion, precio, stock, disponible, idproveedor):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO productos(idproducto, descripcion, precio, stock, disponible, idproveedor) VALUES (%s, %s, %s,%s, %s, %s)",
-        (idproducto, descripcion, precio, stock, disponible, idproveedor))
+        cursor.execute("INSERT INTO productos(descripcion, precio, stock, disponible, idproveedor) VALUES (%s, %s,%s, %s, %s)",
+        (descripcion, precio, stock, disponible, idproveedor))
     conexion.commit()
     conexion.close()
 
-def insertar_proveedor(idproveedor, proveedor):
+def insertar_proveedor(proveedor):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO proveedor(idproveedor,proveedor) VALUES (%s, %s)",
-        (idproveedor, proveedor))
+        cursor.execute("INSERT INTO proveedor(proveedor) VALUES (%s)",
+        (proveedor))
     conexion.commit()
     conexion.close()
 
-def insertar_pedido(idpedido, fechapedido, estadopedido, idproducto):
+def insertar_pedido(fechapedido, estadopedido, idproducto):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO pedidos(idpedido, fechapedido, estadopedido, idproducto) VALUES (%s, %s, %s, %s)",
-        (idpedido, fechapedido, estadopedido, idproducto))
+        cursor.execute("INSERT INTO pedidos(fechapedido, estadopedido, idproducto) VALUES (%s, %s, %s)",
+        (fechapedido, estadopedido, idproducto))
+    conexion.commit()
+    with conexion.cursor() as cursor:
+        cursor.execute("CALL restar_stock(%s)",
+        (idproducto))
     conexion.commit()
     conexion.close()
 
-def insertar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad):
+def insertar_enpr(fechaentrega, idproveedor, idproducto, cantidad):
     conexion = obtener_conexion()
     with conexion.cursor() as cursor:
-        cursor.execute("INSERT INTO entregaproveedor(identrega, fechaentrega, idproveedor, idproducto, cantidad) VALUES (%s, %s, %s, %s,%s)",
-        (identrega, fechaentrega, idproveedor, idproducto, cantidad))
+        cursor.execute("INSERT INTO entregaproveedor(fechaentrega, idproveedor, idproducto, cantidad) VALUES (%s, %s, %s,%s)",
+        (fechaentrega, idproveedor, idproducto, cantidad))
+    conexion.commit()
+    with conexion.cursor() as cursor:
+        cursor.execute("CALL aumentar_stock(%s, %s)",
+        (idproducto, cantidad))
     conexion.commit()
     conexion.close()
 
@@ -36,11 +44,27 @@ def obtener_producto():
     conexion = obtener_conexion()
     productos = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT idproducto, descripcion, precio, stock, disponible, idproveedor FROM productos")
+        cursor.execute("SELECT * FROM vista_productos")
+        productos = cursor.fetchall()
+    conexion.close()
+    return productos
+def obtener_producto_activos():
+    conexion = obtener_conexion()
+    productos = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT idproducto, descripcion, precio, stock, disponible, idproveedor FROM productos WHERE disponible=1")
         productos = cursor.fetchall()
     conexion.close()
     return productos
 
+def obtener_producto_todos():
+    conexion = obtener_conexion()
+    productos = []
+    with conexion.cursor() as cursor:
+        cursor.execute("SELECT idproducto, descripcion, precio, stock, disponible, idproveedor FROM productos")
+        productos = cursor.fetchall()
+    conexion.close()
+    return productos
 def obtener_proveedor():
     conexion = obtener_conexion()
     proveedor = []
@@ -54,7 +78,7 @@ def obtener_pedido():
     conexion = obtener_conexion()
     pedidos = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT idpedido, fechapedido, estadopedido, idproducto FROM pedidos")
+        cursor.execute("SELECT * FROM vista_pedidos;")
         pedidos = cursor.fetchall()
     conexion.close()
     return pedidos
@@ -63,7 +87,7 @@ def obtener_enpr():
     conexion = obtener_conexion()
     entregas = []
     with conexion.cursor() as cursor:
-        cursor.execute("SELECT identrega, fechaentrega, idproveedor, idproducto, cantidad FROM entregaproveedor")
+        cursor.execute("SELECT * FROM vista_entregas")
         entregas = cursor.fetchall()
     conexion.close()
     return entregas

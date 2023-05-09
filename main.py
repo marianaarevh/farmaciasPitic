@@ -1,180 +1,265 @@
-from flask import Flask, render_template, request, redirect, flash
-import controlador_productos
+from flask import Flask, render_template, request, redirect, flash, session
+import controlador_productos, controlador_login
+from bd import obtener_conexion
+
 
 app = Flask(__name__)
 
-@app.route("/")
-@app.route("/login.html")
-def login():
-    return render_template("login.html")
+secret_key = "25e630a27f4f583aafb35ca6b37dce88a422d10007141147c2120e13de8c00f8"
+app.config['SECRET_KEY'] = secret_key
 
 @app.route("/agregar_proveedor")
 def formulario_agregar_proveedor():
-    return render_template("agregar_proveedor.html")
+    if session["logged_in"]==True:
+        return render_template("agregar_proveedor.html")
+    else: return redirect("/login")
 
 @app.route("/agregar_producto")
 def formulario_agregar_producto():
-    return render_template("agregar_productos.html")
+    if session["logged_in"]==True:
+        proveedores=controlador_productos.obtener_proveedor()
+        return render_template("agregar_productos.html",proveedores=proveedores)
+    else: return redirect("/login")
 
 @app.route("/agregar_pedido")
 def formulario_agregar_pedido():
-    return render_template("agregar_pedidos.html")
+    if session["logged_in"]==True:
+        proveedores=controlador_productos.obtener_proveedor()
+        productos=controlador_productos.obtener_producto_activos()
+        return render_template("agregar_pedidos.html",proveedores=proveedores,productos=productos)
+    else: return redirect("/login")
 
 @app.route("/agregar_entrega")
 def formulario_agregar_entrega():
-    return render_template("agregar_entrega.html")
+    if session["logged_in"]==True:
+        proveedores=controlador_productos.obtener_proveedor()
+        productos=controlador_productos.obtener_producto_todos()
+        return render_template("agregar_entrega.html",proveedores=proveedores,productos=productos)
+    else: return redirect("/login")
+
 
 @app.route("/guardar_producto", methods=["POST"])
 def guardar_producto():
-    idproducto = request.form["idproducto"]
-    descripcion = request.form["descripcion"]
-    precio = request.form["precio"]
-    stock = request.form["stock"]
-    disponible = request.form["disponible"]
-    idproveedor = request.form["idproveedor"]
-    controlador_productos.insertar_producto(idproducto, descripcion, precio, stock, disponible, idproveedor)
-    # De cualquier modo, y si todo fue bien, redirecciona
-    return redirect("/productos")
+    if session["logged_in"]==True:
+        descripcion = request.form["descripcion"]
+        precio = request.form["precio"]
+        stock = request.form["stock"]
+        disponible = request.form["disponible"]
+        idproveedor = request.form["idproveedor"]
+        controlador_productos.insertar_producto( descripcion, precio, stock, disponible, idproveedor)
+        # De cualquier modo, y si todo fue bien, redirecciona
+        return redirect("/productos")
+    else: return redirect("/login")
 
 @app.route("/guardar_proveedor", methods=["POST"])
 def guardar_proveedor():
-    idproveedor = request.form["idproveedor"]
-    proveedor = request.form["proveedor"]
-    controlador_productos.insertar_proveedor(idproveedor, proveedor)
-    # De cualquier modo, y si todo fue bien, redirecciona
-    return redirect("/proveedor")
+    if session["logged_in"]==True:
+        proveedor = request.form["proveedor"]
+        controlador_productos.insertar_proveedor(proveedor)
+        # De cualquier modo, y si todo fue bien, redirecciona
+        return redirect("/proveedor")
+    else: return redirect("/login")
 
 @app.route("/guardar_pedido", methods=["POST"])
 def guardar_pedido():
-    idpedido = request.form["idpedido"]
-    fechapedido = request.form["fechapedido"]
-    estadopedido = request.form["estadopedido"]
-    idproducto = request.form["idproducto"]
-    controlador_productos.insertar_pedido(idpedido, fechapedido, estadopedido, idproducto)
-    # De cualquier modo, y si todo fue bien, redirecciona
-    return redirect("/pedidos")
+    if session["logged_in"]==True:
+        fechapedido = request.form["fechapedido"]
+        estadopedido = request.form["estadopedido"]
+        idproducto = request.form["idproducto"]
+        controlador_productos.insertar_pedido(fechapedido, estadopedido, idproducto)
+        # De cualquier modo, y si todo fue bien, redirecciona
+        return redirect("/pedidos")
+    else: return redirect("/login")
 
 @app.route("/guardar_entrega", methods=["POST"])
 def guardar_entrega():
-    identrega = request.form["identrega"]
-    fechaentrega = request.form["fechaentrega"]
-    idproveedor = request.form["idproveedor"]
-    idproducto = request.form["idproducto"]
-    cantidad = request.form["cantidad"]
-    controlador_productos.insertar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad)
-    # De cualquier modo, y si todo fue bien, redirecciona
-    return redirect("/entregas")
+    if session["logged_in"]==True:
+        fechaentrega = request.form["fechaentrega"]
+        idproveedor = request.form["idproveedor"]
+        idproducto = request.form["idproducto"]
+        cantidad = request.form["cantidad"]
+        controlador_productos.insertar_enpr(fechaentrega, idproveedor, idproducto, cantidad)
+        # De cualquier modo, y si todo fue bien, redirecciona
+        return redirect("/entregas")
+    else: return redirect("/login")
 
 #@app.route("/")
 @app.route("/productos")
 def productos():
-    productos = controlador_productos.obtener_producto()
-    return render_template("productos.html", productos=productos)
+    if session["logged_in"]==True:
+        productos = controlador_productos.obtener_producto()
+        return render_template("productos.html", productos=productos)
+    else: return redirect("/login")
 
 @app.route("/proveedor")
 def proveedor():
-    proveedor = controlador_productos.obtener_proveedor()
-    print(proveedor)
-    return render_template("proveedor.html", proveedor=proveedor)
+    if session["logged_in"]==True:
+        proveedor = controlador_productos.obtener_proveedor()
+        print(proveedor)
+        return render_template("proveedor.html", proveedor=proveedor)
+    else: return redirect("/login")
 
 @app.route("/pedidos")
 def pedidos():
-    pedidos = controlador_productos.obtener_pedido()
-    return render_template("pedidos.html", pedidos=pedidos)
+    if session["logged_in"]==True:
+        pedidos = controlador_productos.obtener_pedido()
+        return render_template("pedidos.html", pedidos=pedidos)
+    else: return redirect("/login")
 
 @app.route("/entregas")
 def entregas():
-    entregas = controlador_productos.obtener_enpr()
-    return render_template("entregas.html", entregas=entregas)
+    if session["logged_in"]==True:
+        entregas = controlador_productos.obtener_enpr()
+        return render_template("entregas.html", entregas=entregas)
+    else: return redirect("/login")
 
 @app.route("/eliminar_producto", methods=["POST"])
 def eliminar_producto():
-    controlador_productos.eliminar_productos(request.form["id"])
-    return redirect("/productos")
+    if session["logged_in"]==True:
+        controlador_productos.eliminar_productos(request.form["id"])
+        return redirect("/productos")
+    else: return redirect("/login")
 
-<<<<<<< HEAD
-@app.route("/dashboard")
-def dashboard():
-    return render_template("dashboard.html")
-=======
+
 @app.route("/eliminar_proveedor", methods=["POST"])
 def eliminar_proveedor():
-    idproveedor = request.form.get("idproveedor")
-    if idproveedor is not None:
-        controlador_productos.eliminar_proveedor(idproveedor)
-    return redirect("/proveedor")
+    if session["logged_in"]==True:
+        idproveedor = request.form.get("idproveedor")
+        if idproveedor is not None:
+            controlador_productos.eliminar_proveedor(idproveedor)
+        return redirect("/proveedor")
+    else: return redirect("/login")
 
 @app.route("/eliminar_pedido", methods=["POST"])
 def eliminar_pedido():
-    controlador_productos.eliminar_pedido(request.form["id"])
-    return redirect("/pedidos")
+    if session["logged_in"]==True:
+        controlador_productos.eliminar_pedido(request.form["id"])
+        return redirect("/pedidos")
+    else: return redirect("/login")
 
 @app.route("/eliminar_entrega", methods=["POST"])
 def eliminar_entrega():
-    controlador_productos.eliminar_enpr(request.form["id"])
-    return redirect("/entregas")
+    if session["logged_in"]==True:
+        controlador_productos.eliminar_enpr(request.form["id"])
+        return redirect("/entregas")
+    else: return redirect("/login")
 
->>>>>>> b467beff88b36cc585accc43aa4721df0089a07e
 @app.route("/formulario_editar_producto/<int:id>")
 def editar_producto(id):
-    # obtener el producto por ID:
-    producto = controlador_productos.obtener_producto_por_id(id)
-    return render_template("editar_producto.html", producto=producto)
+    if session["logged_in"]==True:
+        # obtener el producto por ID:
+        producto = controlador_productos.obtener_producto_por_id(id)
+        proveedores=controlador_productos.obtener_proveedor()
+        return render_template("editar_producto.html", producto=producto,proveedores=proveedores)
+    else: return redirect("/login")
 
 @app.route("/formulario_editar_proveedor/<int:id>")
 def editar_proveedor(id):
-    # obtener el producto por ID:
-    proveedor = controlador_productos.obtener_proveedor_por_id(id)
-    return render_template("editar_proveedor.html", proveedor=proveedor)
+    if session["logged_in"]==True:
+        # obtener el producto por ID:
+        proveedor = controlador_productos.obtener_proveedor_por_id(id)
+        return render_template("editar_proveedor.html", proveedor=proveedor)
+    else: return redirect("/login")
 
 @app.route("/formulario_editar_pedido/<int:id>")
 def editar_pedido(id):
-    # obtener el producto por ID:
-    pedido = controlador_productos.obtener_pedido_por_id(id)
-    return render_template("editar_pedido.html", pedido=pedido)
+    if session["logged_in"]==True:
+        # obtener el producto por ID:
+        productos=controlador_productos.obtener_producto_activos()
+        pedido = controlador_productos.obtener_pedido_por_id(id)
+        return render_template("editar_pedido.html", pedido=pedido,productos=productos)
+    else: return redirect("/login")
 
 @app.route("/formulario_editar_entrega/<int:id>")
 def editar_entrega(id):
-    # obtener el producto por ID:
-    entrega = controlador_productos.obtener_enpr_por_id(id)
-    return render_template("editar_entrega.html", entrega=entrega)
+    if session["logged_in"]==True:
+        # obtener el producto por ID:
+        entrega = controlador_productos.obtener_enpr_por_id(id)
+        productos=controlador_productos.obtener_producto_activos()
+        proveedores=controlador_productos.obtener_proveedor()
+        return render_template("editar_entrega.html", entrega=entrega,productos=productos,proveedores=proveedores)
+    else: return redirect("/login")
 
 @app.route("/actualizar_producto", methods=["POST"])
 def actualizar_producto():
-    idproducto = request.form["idproducto"]
-    descripcion = request.form["descripcion"]
-    precio = request.form["precio"]
-    stock = request.form["stock"]
-    disponible = request.form["disponible"]
-    idproveedor = request.form["idproveedor"]
-    controlador_productos.actualizar_producto(idproducto, descripcion, precio, stock, disponible, idproveedor)
-    return redirect("/productos")
+    if session["logged_in"]==True:
+        idproducto = request.form["idproducto"]
+        descripcion = request.form["descripcion"]
+        precio = request.form["precio"]
+        stock = request.form["stock"]
+        disponible = request.form["disponible"]
+        idproveedor = request.form["idproveedor"]
+        controlador_productos.actualizar_producto(idproducto, descripcion, precio, stock, disponible, idproveedor)
+        return redirect("/productos")
+    else: return redirect("/login")
 
 @app.route("/actualizar_proveedor", methods=["POST"])
 def actualizar_proveedor():
-    idproveedor = request.form["idproveedor"]
-    proveedor = request.form["proveedor"]
-    controlador_productos.actualizar_proveedor(idproveedor, proveedor)
-    return redirect("/proveedor")
+    if session["logged_in"]==True:
+        idproveedor = request.form["idproveedor"]
+        proveedor = request.form["proveedor"]
+        controlador_productos.actualizar_proveedor(idproveedor, proveedor)
+        return redirect("/proveedor")
+    else: return redirect("/login")
 
 @app.route("/actualizar_pedido", methods=["POST"])
 def actualizar_pedido():
-    idpedido = request.form["idpedido"]
-    fechapedido = request.form["fechapedido"]
-    estadopedido = request.form["estadopedido"]
-    idproducto = request.form["idproducto"]
-    controlador_productos.actualizar_pedido(idpedido, fechapedido, estadopedido, idproducto)
-    return redirect("/pedidos")
+    if session["logged_in"]==True:
+        idpedido = request.form["idpedido"]
+        fechapedido = request.form["fechapedido"]
+        estadopedido = request.form["estadopedido"]
+        idproducto = request.form["idproducto"]
+        controlador_productos.actualizar_pedido(idpedido, fechapedido, estadopedido, idproducto)
+        return redirect("/pedidos")
+    else: return redirect("/login")
 
 @app.route("/actualizar_entrega", methods=["POST"])
 def actualizar_entrega():
-    identrega = request.form["identrega"]
-    fechaentrega = request.form["fechaentrega"]
-    idproveedor = request.form["idproveedor"]
-    idproducto = request.form["idproducto"]
-    cantidad = request.form["cantidad"]
-    controlador_productos.actualizar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad)
-    return redirect("/entregas")
+    if session["logged_in"]==True:
+        identrega = request.form["identrega"]
+        fechaentrega = request.form["fechaentrega"]
+        idproveedor = request.form["idproveedor"]
+        idproducto = request.form["idproducto"]
+        cantidad = request.form["cantidad"]
+        controlador_productos.actualizar_enpr(identrega, fechaentrega, idproveedor, idproducto, cantidad)
+        return redirect("/entregas")
+    else: return redirect("/login")
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    if session["logged_in"]==True:
+        return render_template("dashboard.html")
+    else:
+        return redirect("/login")
+
+@app.route('/login', methods=['GET', 'POST'])
+def loginI():
+    if request.method=='GET':
+        return render_template('login.html')
+    if request.method=='POST':
+        username = request.form['username']
+        contrasena = request.form['contrasena']
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT * FROM login_python WHERE username=%s AND contrasena=%s", (username, contrasena))
+        user = cursor.fetchone()
+        if user is not None:
+            session['logged_in'] = True
+            return redirect('/dashboard')
+        else:
+            return render_template('login.html', error=True)
+
+@app.route('/')
+def index():
+    if session["logged_in"]==True:
+        return redirect("/dashboard")
+    else:
+        return redirect("/login")
+
+@app.route('/logout')
+def logout(): 
+    session['logged_in'] = False
+    return redirect('/login')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000, debug=True)

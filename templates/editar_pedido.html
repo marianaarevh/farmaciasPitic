@@ -3,7 +3,8 @@
 Editar pedido
 {% endblock %}
 {% block contenido %}
-<section class="section">
+<div class="portada">
+    <section class="section">
     <div class="columns">
         <div class="column">
             <h3 class="is-size-3">Editar pedido</h3>
@@ -12,15 +13,24 @@ Editar pedido
                 {# Enviar el id en un campo oculto #}
                 <input type="hidden" name="idpedido" value="{{pedido[0]}}">
                 <label for="fechapedido">Fecha de Pedido:</label>
-                <input value="{{pedido[1]}}" required type="text" class="input" placeholder="Fecha de Pedido" name="fechapedido" id="fechapedido">
+                <input required type="text" class="input" value="{{pedido[1]}}" name="fechapedido" id="fechapedido">
                 <label for="estadopedido">Estado de Pedido:</label>
-                <input value="{{pedido[2]}}" required type="text" class="input" placeholder="Estado de pedido" name="estadopedido" id="estadopedido">
-                <label for="idproducto">Id de Producto:</label>
-                <input value="{{pedido[3]}}" required type="number" class="input" placeholder="Id de Producto" name="idproducto" id="idproducto">
+                <input required type="text" class="input" value="{{pedido[2]}}" name="estadopedido" id="estadopedido">
+                <label for="idproducto">Producto:</label>
+                <select required class="input" name="idproducto" id="idproducto">
+                    {% for producto in productos %}
+                    {% if producto[0] ==  pedido[3] %}
+                        <option value="{{ producto[0] }}" selected>{{ producto[1] }}</option>
+                    {% else %}
+                        <option value="{{ producto[0] }}">{{ producto[1] }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
                 <button type="submit" class="button is-success mt-2">Guardar</button>
                 <a href="{{url_for('pedidos')}}" class="button is-primary mt-2">Volver</a>
             </form>
         </div>
     </div>
 </section>
+</div>
 {% endblock %}

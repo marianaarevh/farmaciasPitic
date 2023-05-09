@@ -3,19 +3,26 @@
 Agregar entrega
 {% endblock %}
 {% block contenido %}
+<div class="portada">
 <section class="section">
     <div class="columns">
         <div class="column">
             <h3 class="is-size-3">Agregar entrega</h3>
             <form action="{{url_for('guardar_entrega')}}" method="post">
-                <label for="identrega">Id Entrega:</label>
-                <input required type="number" class="input" placeholder="Id Entrega" name="identrega" id="identrega">
                 <label for="fechaentrega">Fecha de Entrega:</label>
                 <input required type="text" class="input" placeholder="Fecha de Entrega" name="fechaentrega" id="fechaentrega">
-                <label for="idproveedor">Id de Proveedor:</label>
-                <input required type="number" class="input" placeholder="Id de Proveedor" name="idproveedor" id="idproveedor">
-                <label for="idproducto">Id de Producto:</label>
-                <input required type="number" class="input" placeholder="Id de Producto" name="idproducto" id="idproducto">
+                <label for="idproveedor">Proveedor:</label>
+                <select required class="input" name="idproveedor" id="proveedor">
+                  {% for proveedor in proveedores %}
+                  <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+                  {% endfor %}
+                </select>
+                <label for="idproducto">Producto:</label>
+                <select required class="input" name="idproducto" id="idproducto">
+                    {% for producto in productos %}
+                    <option value="{{ producto[0] }}">{{ producto[1] }}</option>
+                    {% endfor %}
+                </select>
                 <label for="cantidad">Cantidad:</label>
                 <input required type="number" class="input" placeholder="Cantidad" name="cantidad" id="cantidad">
                 <button type="submit" class="button is-success mt-2">Guardar</button>
@@ -24,4 +31,5 @@ Agregar entrega
         </div>
     </div>
 </section>
+</div>
 {% endblock %}

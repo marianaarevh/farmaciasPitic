@@ -3,6 +3,7 @@
 {% block titulo %} Proveedor {% endblock %}
 
 {% block contenido %}
+<div class="portada">
 <section class="section">
     <div class="columns">
         <div class="column">
@@ -11,25 +12,16 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>id Proveedor</th>
                         <th>Proveedor</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for proveedor in proveedor %}
                     <tr>
-                        <td>{{proveedor[0]}}</td>
                         <td>{{proveedor[1]}}</td>
                         <td>
                             {# Pasar el id lo que hay en proveedor[0] #}
                             <a href="{{url_for('editar_proveedor', id=proveedor[0])}}" class="button is-info">Editar</a>
-                        </td>
-                        <td>
-                            <form action="{{url_for('eliminar_proveedor')}}" method="POST">
-                                <input type="hidden" name="idproveedor" value="{{proveedor[0]}}">
-                                <button class="button is-danger">Eliminar</button>
-                            </form>
-                            
                         </td>
                     </tr>
                     {% endfor %}
@@ -38,4 +30,5 @@
         </div>
     </div>
 </section>
+</div>
 {% endblock %}

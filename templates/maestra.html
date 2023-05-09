@@ -6,37 +6,219 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Poner un block para que luego pueda ser remplazado en las siguientes plantillas; lo mismo con el  block contenido-->
-    <title>CRUD MySQL con Flask - {% block titulo %}{% endblock %}</title>
+    <title> Inicio | Farmacias Pitic {% block titulo %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/4674f1267d.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+          font-size: 1em;
+        }
+        
+        @media only screen and (max-width: 600px) {
+          body {
+            font-size: 0.8em;
+          }
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    
+    }
+    
+    body {
+        display: flex;
+        background-color: white;
+    }
+    
+    .mitad-1 {
+        width: 50%;
+            float: right;
+            position: fixed;
+            height: 100%;
+            background-color: white;
+            
+    }
+    
+    .form {
+        margin: auto;
+        width: auto;
+    
+    }
+    .mitad-1 form {
+        position: relative;
+        display:flex;
+        flex-direction:column;
+        padding: 25%;
+        gap: 20px;
+        width: auto;
+        height: 100%;
+        margin-top: 0;
+    
+        
+    }
+    
+    .form .header {
+        font-size: xx-large;
+        color: black;
+        text-align: center;
+        font-weight: 500;
+        min-height: 0%;
+    }
+    
+    .mitad-2 {
+        width: 50%;
+            float: left;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            border-radius: 12px;
+            background-color: blue;
+    }
+    
+    .responsive {
+        width: 100%;
+        height: auto;
+        position: sticky;
+        border-radius: 12px;
+    }
+    
+    form input {
+        height: 40px;
+        outline: none;
+        padding: 0 15px;
+        font-size: small;
+        font-weight: 300;
+        border-radius: 8px;
+    
+    
+    }
+    
+    form input[type="submit"] {
+        font-size: small;
+        font-weight: 500;
+        background-color: rgb(252, 106, 0);
+        border: none;
+        color: white;
+    
+    }
+    
+    .img {
+        border-radius: 19px;
+    }
+    
+    .content {
+        display: grid;
+        background-color: bisque;
+        height: 100vh;
+        place-items: center;
+      }
+      .form .header {
+        font-size: xx-large;
+        color: black;
+        text-align: center;
+        font-weight: 500;
+        min-height: 0%;
+    }
+    
+    .menu  {
+        width: 25%;
+            float: left;
+            position: fixed;
+            height: 100%;
+            background-color: #00399d;
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0px 10px 15px #172866;
+            overflow-y: auto; /* Enable vertical scrolling */
+    
+            
+            
+    }
+    
+    .menu .elementos {
+        color:white;
+        font-weight: 500;
+        flex-direction: column;
+        gap: 60px;
+        position: relative;
+        display:flex;
+        padding-bottom: 20px;
+        margin-left: auto;
+        text-align: left;
+        margin-top: 10%;
+        text-decoration: none;
+    
+        
+    }
+    
+    .fa-ul {
+        padding: 10%;
+        text-align: left;
+    }
+    
+    .portada{
+        width: 75%;
+            float: right;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+    }
+    
+    .banner {
+        width: 60%;
+        text-align: center
+        ;
+    }
+    
+    .menu input[type="submit"] {
+        font-size: small;
+        font-weight: 500;
+        background-color: rgb(252, 106, 0);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        height: 40px;
+        padding: 0 20px;
+        box-shadow: 0 10 15px #172866;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+    
+    
+    }
+ 
+        /* Agrega otras media queries aquí para diferentes tamaños de pantalla */
+      </style>
 </head>
 
 <body>
-    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <button class="navbar-burger is-warning button" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </button>            
-        </div>
-        <div class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="{{url_for('productos')}}">Productos</a>
-                <a class="navbar-item" href="{{url_for('proveedor')}}">Proveedor</a>
-                <a class="navbar-item" href="{{url_for('pedidos')}}">Pedidos</a>
-                <a class="navbar-item" href="{{url_for('entregas')}}">Entregas</a>
-            </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">                 
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <div class="menu">
+
+        <ul class="fa-ul">
+            <li class="elementos"><i class="fa-li fa fa-user"></i><a href="{{url_for('dashboard')}}"style="text-decoration:none; color:#ffffff;">Hola {{ username }}</a></li>
+            <li class="elementos"><i class="fa-li fa fa-cubes"></i><a href="{{url_for('productos')}}"style="text-decoration:none; color:#ffffff;">Productos</a></li>
+            <li class="elementos"><i class="fa-li fa fa-th-list"></i><a href="{{url_for('pedidos')}}"style="text-decoration:none; color:#ffffff;">Pedidos</a></li>
+            <li class="elementos"><i class="fa-li fa fa-users"></i><a href="{{url_for('proveedor')}}"style="text-decoration:none; color:#ffffff;">Proveedores</a></li>
+            <li class="elementos"><i class="fa-li fa fa-bus"></i><a href="{{url_for('entregas')}}"style="text-decoration:none; color:#ffffff;">Entregas proveedores</a></li>
+
+          </ul>
+          <tr></tr>
+          <tr></tr>
+           <input type="submit" class="button" value="Cerrar Sesión" onclick="window.location.href='/logout'">
+    </div>
+    <!--<div class="portada">
+        <center> <img class="banner" src="../static/farmaciaLogo.png" alt="farmaciaLogo">  </center>
+    </div>
+    <div>
+    -->
+    </div>
     {%block contenido %} {% endblock %}
 </body>
-
 </html>    

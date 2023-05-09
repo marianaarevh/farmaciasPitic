@@ -146,9 +146,11 @@ form input[type="submit"] {
 }
 
 .banner {
-    width: 60%;
-    text-align: center
-    ;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    height: auto;
+    position: relative;
 }
 
 .menu input[type="submit"] {

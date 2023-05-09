@@ -3,6 +3,7 @@
 Editar entrega
 {% endblock %}
 {% block contenido %}
+<div class="portada">
 <section class="section">
     <div class="columns">
         <div class="column">
@@ -13,10 +14,26 @@ Editar entrega
                 <input type="hidden" name="identrega" value="{{entrega[0]}}">
                 <label for="fechaentrega">Fecha de Entrega:</label>
                 <input value="{{entrega[1]}}" required type="text" class="input" placeholder="Fecha de Entrega" name="fechaentrega" id="fechaentrega">
-                <label for="idproveedor">Id de proveedor:</label>
-                <input value="{{entrega[2]}}" required type="number" class="input" placeholder="Id de proveedor" name="idproveedor" id="idproveedor">
-                <label for="idproducto">Id de Producto:</label>
-                <input value="{{entrega[3]}}" required type="number" class="input" placeholder="Id de Producto" name="idproducto" id="idproducto">
+                <label for="idproveedor">Proveedor:</label>
+                <select required class="input" name="idproveedor" id="idproveedor">
+                    {% for proveedor in proveedores %}
+                    {% if proveedor[0] ==  entrega[4] %}
+                        <option value="{{ proveedor[0] }}" selected>{{ proveedor[1] }}</option>
+                    {% else %}
+                        <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="idproducto">Producto:</label>
+                <select required class="input" name="idproducto" id="idproducto">
+                    {% for producto in productos %}
+                    {% if producto[0] ==  entrega[5] %}
+                        <option value="{{ producto[0] }}" selected>{{ producto[1] }}</option>
+                    {% else %}
+                        <option value="{{ producto[0] }}">{{ producto[1] }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
                 <label for="cantidad">Cantidad:</label>
                 <input value="{{entrega[4]}}" required type="number" class="input" placeholder="Cantidad" name="cantidad" id="cantidad">
                 <button type="submit" class="button is-success mt-2">Guardar</button>
@@ -25,4 +42,5 @@ Editar entrega
         </div>
     </div>
 </section>
+</div>
 {% endblock %}

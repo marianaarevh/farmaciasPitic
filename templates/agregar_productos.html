@@ -3,13 +3,12 @@
 Agregar productos
 {% endblock %}
 {% block contenido %}
+<div class="portada">
 <section class="section">
     <div class="columns">
-        <div class="column">py
+        <div class="column">
             <h3 class="is-size-3">Agregar productos</h3>
             <form action="{{url_for('guardar_producto')}}" method="post">
-                <label for="idproducto">ID Producto:</label>
-                <input required type="text" class="input" placeholder="ID Producto" name="idproducto" id="idproducto">
                 <label for="descripcion">Descripción:</label>
                 <input required type="text" class="input" placeholder="Descripción" name="descripcion" id="descripcion">
                 <label for="precio">Precio:</label>
@@ -21,12 +20,17 @@ Agregar productos
                     <option value="1">Sí</option>
                     <option value="0">No</option>
                 </select>
-                <label for="idproveedor">ID Proveedor:</label>
-                <input required type="text" class="input" placeholder="ID Proveedor" name="idproveedor" id="idproveedor">
+                <label for="idproveedor">Proveedor:</label>
+                <select required class="input" name="idproveedor" id="proveedor">
+                  {% for proveedor in proveedores %}
+                  <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+                  {% endfor %}
+                </select>
                 <button type="submit" class="button is-success mt-2">Guardar</button>
                 <a href="{{url_for('productos')}}" class="button is-primary mt-2">Volver</a>
             </form>
         </div>
     </div>
 </section>
+</div>
 {% endblock %}

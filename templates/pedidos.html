@@ -3,6 +3,7 @@
 {% block titulo %} Pedidos {% endblock %}
 
 {% block contenido %}
+<div class="portada">
 <section class="section">
     <div class="columns">
         <div class="column">
@@ -11,16 +12,14 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Id Pedido</th>
                         <th>fecha de Pedido</th>
                         <th>Estado de Pedido</th>
-                        <th>Id de Producto</th>
+                        <th>Producto</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for pedido in pedidos %}
                     <tr>
-                        <td>{{pedido[0]}}</td>
                         <td>{{pedido[1]}}</td>
                         <td>{{pedido[2]}}</td>
                         <td>{{pedido[3]}}</td>
@@ -28,12 +27,7 @@
                             {# Pasar el id lo que hay en pedido[0] #}
                             <a href="{{url_for('editar_pedido', id=pedido[0])}}" class="button is-info">Editar</a>
                         </td>
-                        <td>
-                            <form action="{{url_for('eliminar_pedido')}}" method="POST">
-                                <input type="hidden" name="id" value="{{pedido[0]}}">
-                                <button class="button is-danger">Eliminar</button>
-                            </form>
-                        </td>
+
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -41,4 +35,5 @@
         </div>
     </div>
 </section>
+</div>
 {% endblock %}
